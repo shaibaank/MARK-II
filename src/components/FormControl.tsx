@@ -159,4 +159,38 @@ export const HelperText: React.FC<{ children: React.ReactNode; className?: strin
   return <p className={`mt-1 text-sm text-text-color-secondary ${className}`}>{children}</p>;
 };
 
-export default FormControl; 
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'destructive';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const Button: React.FC<ButtonProps> = ({
+  children,
+  className = '',
+  variant = 'primary',
+  size = 'md',
+  ...props
+}) => {
+  const variantClasses = {
+    primary: 'bg-primary text-white hover:bg-primary-dark',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+    destructive: 'bg-red-500 text-white hover:bg-red-600',
+  };
+
+  const sizeClasses = {
+    sm: 'px-2 py-1 text-sm',
+    md: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg',
+  };
+
+  return (
+    <button
+      className={`font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+export default Button; 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'danger';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'danger' | 'destructive';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,6 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
     ghost: 'bg-transparent text-text-color hover:bg-gray-100 focus:ring-primary',
     link: 'bg-transparent text-primary underline hover:text-primary-dark focus:ring-primary p-0',
     danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    destructive: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
   };
   
   const sizeClasses = {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from './FormControl';
+import Button from './Button';
 import { Input } from './FormControl';
 
 interface TodoItem {
