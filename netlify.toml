@@ -1,18 +1,9 @@
 [build]
   command = "npm run build"
-  publish = "out"
+  publish = ".next"
 
 [build.environment]
-  NODEJS_VERSION = "18"
-  NEXT_IGNORE_ESLINT = "true"
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
-  NEXT_TELEMETRY_DISABLED = "1"
-  NEXT_PUBLIC_APP_MODE = "todo-only"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/"
-  status = 200 
+  package = "@netlify/plugin-nextjs" 
