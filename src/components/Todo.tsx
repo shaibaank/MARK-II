@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FormControl, Input, Label, HelperText } from './FormControl';
-import Button from './Button';
+import { Input, Button, Checkbox } from './FormControl';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './Card';
 
 interface TodoItem {
   id: string;
@@ -52,15 +52,12 @@ const Todo: React.FC = () => {
       <form onSubmit={handleAddTodo} className="mb-6">
         <div className="flex gap-2">
           <div className="flex-1">
-            <FormControl>
-              <Input
-                value={newTodo}
-                onChange={(e) => setNewTodo(e.target.value)}
-                placeholder="Add a new todo..."
-                error={error}
-              />
-              {error && <HelperText error>{error}</HelperText>}
-            </FormControl>
+            <Input
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+              placeholder="Add a new todo..."
+              error={error}
+            />
           </div>
           <Button type="submit" variant="primary">
             Add
