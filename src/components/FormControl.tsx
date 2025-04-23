@@ -152,12 +152,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   );
 };
 
-export const HelperText: React.FC<{ children: React.ReactNode; className?: string; error?: boolean }> = ({
+export const HelperText: React.FC<{ children: React.ReactNode; className?: string }> = ({
   children,
   className = '',
-  error,
 }) => {
-  return <p className={`mt-1 text-sm ${error ? 'text-red-500' : 'text-text-color-secondary'} ${className}`}>{children}</p>;
+  return <p className={`mt-1 text-sm text-text-color-secondary ${className}`}>{children}</p>;
 };
 
 export default FormControl; 
