@@ -1,14 +1,27 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { FaSearch, FaSpinner, FaCheck, FaBook, FaBrain, FaQuestion, FaBalanceScale, FaLightbulb, FaCopy, FaDownload, FaRocket } from 'react-icons/fa';
-import { HiDocument, HiLightBulb, HiExclamation, HiEye, HiBeaker } from 'react-icons/hi';
+// Remove ALL unused Fa/Hi icons imports from react-icons
+// If FaCopy and FaDownload ARE used later, import them specifically:
+// import { FaCopy, FaDownload } from 'react-icons/fa'; 
+// Otherwise, remove these lines entirely:
+// import { FaSearch, FaSpinner, FaCheck, FaBook, FaBrain, FaQuestion, FaBalanceScale, FaLightbulb, FaCopy, FaDownload, FaRocket } from 'react-icons/fa';
+// import { HiDocument, HiLightBulb, HiExclamation, HiEye, HiBeaker } from 'react-icons/hi';
+
+
+// Define the interface inline for now if src/interfaces.ts doesn't exist
+interface SearchResult {
+  title: string;
+  link: string;
+  snippet: string;
+}
+
 
 export default function Home() {
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [summary, setSummary] = useState('');
   const [formattedSummary, setFormattedSummary] = useState<{
     overview: string;
