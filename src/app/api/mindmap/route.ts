@@ -55,7 +55,7 @@ Respond with ONLY this exact JSON structure:
       }
       
       // Validate each node has required properties
-      parsed.nodes.forEach(node => {
+      parsed.nodes.forEach((node: any) => {
         if (!node.id || !node.label || !Array.isArray(node.children)) {
           throw new Error('Invalid node structure');
         }
