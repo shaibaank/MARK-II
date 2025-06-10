@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'reactflow/dist/style.css';
+
 :root {
   --primary-color: #3b82f6;
   --primary-light: #60a5fa;
@@ -576,6 +578,59 @@ strong {
   font-size: 1.25rem;
 }
 
+/* Mind Map Styles */
+.react-flow {
+  background-color: #fafafa;
+}
+
+.react-flow__node {
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  background-color: white;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.react-flow__node:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.react-flow__edge {
+  stroke: #94a3b8;
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated {
+  stroke-dasharray: 5;
+  animation: flowEdge 1s infinite linear;
+}
+
+@keyframes flowEdge {
+  from {
+    stroke-dashoffset: 10;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.react-flow__controls {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.react-flow__controls button {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  padding: 4px;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -612,6 +667,42 @@ strong {
   opacity: 0;
   animation: slideUp 0.5s ease forwards;
   animation-delay: calc(var(--index) * 0.1s);
+}
+
+/* Mind Map Section Styles */
+.mind-map-section {
+  position: relative;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mind-map-button {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.mind-map-button svg {
+  transition: transform 0.2s ease;
+}
+
+.mind-map-button:hover svg {
+  transform: scale(1.1);
+}
+
+.mind-map-container {
+  opacity: 0;
+  animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive Design */

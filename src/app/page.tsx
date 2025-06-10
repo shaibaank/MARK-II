@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
 // Remove ALL unused Fa/Hi icons imports from react-icons
 // If FaCopy and FaDownload ARE used later, import them specifically:
 // import { FaCopy, FaDownload } from 'react-icons/fa'; 
@@ -16,6 +18,18 @@ interface SearchResult {
   snippet: string;
 }
 
+interface MindMapData {
+  nodes: Array<{
+    id: string;
+    label: string;
+    children?: string[];
+  }>;
+}
+
+const ReactFlowWrapper = dynamic(
+  () => import('@/components/ReactFlowWrapper'),
+  { ssr: false }
+);
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -44,6 +58,8 @@ export default function Home() {
   const [progressStep, setProgressStep] = useState(0);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const [mindMapData, setMindMapData] = useState<MindMapData | null>(null);
+  const [isGeneratingMap, setIsGeneratingMap] = useState(false);
   
   const resultsRef = useRef<HTMLDivElement>(null);
   const overviewRef = useRef<HTMLDivElement>(null);
@@ -298,6 +314,27 @@ export default function Home() {
     setProgressStep(0);
   };
 
+  const handleGenerateMindMap = async () => {
+    setIsGeneratingMap(true);
+    try {
+      const response = await fetch('/api/mindmap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ summary: formattedSummary }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      setMindMapData(data);
+    } catch (err) {
+      console.error("Mind map error:", err);
+      setError('Failed to generate mind map. Please try again.');
+    } finally {
+      setIsGeneratingMap(false);
+    }
+  };
+
   return (
     <div className="app">
       {/* Hero Section */}
@@ -548,6 +585,60 @@ export default function Home() {
                 <span className="icon">🔄</span> Start New Research
               </button>
             </div>
+
+      {/* Mind Map Section */}
+      {summary && (
+        <div className="mind-map-section mt-12 mb-8">
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={() => {
+                handleGenerateMindMap();
+                // Scroll behavior similar to other sections
+                setTimeout(() => {
+                  window.scrollTo({
+                    top: window.scrollY + 400,
+                    behavior: 'smooth'
+                  });
+                }, 100);
+              }}
+              disabled={isGeneratingMap}
+              className="action-button mind-map-button flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-lg hover:from-indigo-700 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg"
+            >
+              {isGeneratingMap ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Generating Visual Mind Map...</span>
+                </>
+              ) : (
+                <>
+                  🧠 <span>Generate Visual Mind Map</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {isGeneratingMap && (
+            <div className="loading-container animate-fade-in">
+              <div className="loading-animation">
+                <div className="pulse-circle"></div>
+              </div>
+              <h3>Generating Mind Map</h3>
+              <p className="loading-message">
+                Creating visual representation of research insights...
+              </p>
+            </div>
+          )}
+
+          {mindMapData && (
+            <div className="mind-map-container animate-slide-up w-full h-[600px] border border-gray-200 rounded-xl bg-white shadow-lg p-6 mt-4">
+              <ReactFlowWrapper nodesData={mindMapData.nodes} />
+            </div>
+          )}
+        </div>
+      )}
           </div>
         )}
       </div>
