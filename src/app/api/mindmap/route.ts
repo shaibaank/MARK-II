@@ -1,6 +1,13 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 
+// Define a type for mind map nodes at the top level
+export interface MindMapNode {
+  id: string;
+  label: string;
+  children: string[];
+}
+
 export async function POST(req: Request) {
   try {    const { summary } = await req.json();
     
@@ -55,7 +62,7 @@ Respond with ONLY this exact JSON structure:
       }
       
       // Validate each node has required properties
-      parsed.nodes.forEach((node: any) => {
+      (parsed.nodes as MindMapNode[]).forEach((node: MindMapNode) => {
         if (!node.id || !node.label || !Array.isArray(node.children)) {
           throw new Error('Invalid node structure');
         }

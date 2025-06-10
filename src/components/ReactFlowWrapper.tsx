@@ -21,7 +21,7 @@ interface ReactFlowWrapperProps {
 
 const generateFlow = (nodesData: Node[]) => {
   const nodeMap = new Map();
-  const edges = [];
+  const edges: Array<{ id: string; source: string; target: string; type: string; animated: boolean; style: { stroke: string } }> = [];
   
   // Calculate levels for vertical positioning
   const levels = new Map<string, number>();

@@ -73,4 +73,4 @@ Format each section with clear headings, concise paragraphs, and use bullet poin
       { status: 500 }
     );
   }
-} 
+}
